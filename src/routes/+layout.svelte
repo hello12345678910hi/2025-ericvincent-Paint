@@ -9,4 +9,24 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<div class="nav">
+	<a href="/">home</a>
+	<a href="/drawing-tool">drawing tool</a>
+	<a href="/achievements">achievements</a>
+	<a href="/settings">settings</a>
+	<a href="/login">login</a>
+	<a href="/signup">signup</a>
+	<a href="/contest">contest</a>
+	<a href="/profile">profile</a>
+</div>
+
 {@render children?.()}
+
+<style>
+	.nav {
+		display: flex;
+		gap: 1rem;
+		padding: 1rem;
+		background-color: lightgray;
+	}
+</style>
