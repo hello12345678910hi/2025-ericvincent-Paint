@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="nav">
-	<a href="/">home</a>
+	<a href="/home">home</a>
 	<a href="/drawing-tool">drawing tool</a>
 	<a href="/achievements">achievements</a>
 	<a href="/settings">settings</a>
@@ -19,6 +19,7 @@
 	<a href="/contest">contest</a>
 	<a href="/profile">profile</a>
 	<a href="/signup2">signup 2</a>
+	<a href="/yourartwork">artwork</a>
 </div>
 
 {@render children?.()}
