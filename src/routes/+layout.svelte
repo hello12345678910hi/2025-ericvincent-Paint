@@ -18,6 +18,7 @@
 	<a href="/signup">signup</a>
 	<a href="/contest">contest</a>
 	<a href="/profile">profile</a>
+	<a href="/signup2">signup 2</a>
 </div>
 
 {@render children?.()}
