@@ -4,19 +4,17 @@
 </div>
 
 <div>
-    Publish Drawing:
-  <input type='button'>
+  
+  <button>Publish Drawing</button> 
 </div>
 
 <div>
 
-    Exit Drawing Board:
-  <input type='button'>
+    <button>Exit Drawing Board</button>
 </div>
 
 <div>
-    Save your work:
-  <input type='button'>
+    <button>Save your work</button>
 </div>
 
 
