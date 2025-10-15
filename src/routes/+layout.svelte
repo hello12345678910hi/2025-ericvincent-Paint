@@ -15,10 +15,8 @@
 	<a href="/achievements">achievements</a>
 	<a href="/settings">settings</a>
 	<a href="/login">login</a>
-	<a href="/signup">signup</a>
 	<a href="/contest">contest</a>
 	<a href="/profile">profile</a>
-	<a href="/signup2">signup 2</a>
 	<a href="/yourartwork">artwork</a>
 </div>
 

@@ -9,8 +9,7 @@
     <img height=100 src="https://gallery.yopriceville.com/downloadfullsize/send/23282"/>
     Confirm sign in? ->
     <input type="button">
-    Don't have an account? Press this!' ->
-    <input type="button">
+    Don't have an account? Press <a href="/signup">here</a>
 
 
   </div>
