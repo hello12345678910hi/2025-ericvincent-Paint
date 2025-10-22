@@ -28,7 +28,6 @@
 
 
 .left{
-  background-color: coral;
   width: 750px;
   height: 1000px;
   justify-content: center;
