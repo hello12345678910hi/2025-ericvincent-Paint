@@ -37,8 +37,7 @@
 
 <div>
   <div class="newPiece">
-    click here to create new art!
-    <input type="button">
+    <button>Click here to create new art!</button>
   </div>
 </div>
 
@@ -79,8 +78,8 @@ List of your friends will display here:
 
 .newPiece {
   display: flex;
-  justify-content: end;
-  align-content: end;
+  justify-content: center;
+  align-content: center;
 }
 
 .Border2 {
@@ -92,8 +91,8 @@ List of your friends will display here:
 
 .image {
   display: flex;
-  justify-content: end;
-  align-items: end;
+  justify-content: center;
+  align-items: center;
 }
 
 .side-by-side {

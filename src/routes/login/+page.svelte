@@ -7,8 +7,7 @@
     Please Type your Password:
     <input type="password">
     <img height=100 src="https://gallery.yopriceville.com/downloadfullsize/send/23282"/>
-    Confirm sign in? ->
-    <input type="button">
+    <button>Confirm sign in</button>
     Don't have an account? Press <a href="/signup">here</a>
 
 
