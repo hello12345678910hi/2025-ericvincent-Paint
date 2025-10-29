@@ -1,301 +1,221 @@
 <script>
-	import Drawing from "../../component/Drawing.svelte";
+	import Canvas from '../../lib/Canvas.svelte';
+	import Palette from '../../lib/Palette.svelte';
+	import {
+		savePainting as saveToStorage,
+		generatePaintingId,
+		getAllPaintings
+	} from '../../lib/paintingStorage.js';
 
+	const colors = ['#d58141', '#d7c44c', '#4fa9cc', '#3f8d27'];
+	const background = '#fff';
+
+	let color = colors[0];
+	const paletteColor = color;
+	let canvas;
+	let saveStatus = '';
+	let paintingTitle = '';
+	let painterName = '';
+
+	// Function to save the current painting
+	async function saveCurrentPainting() {
+		if (!canvas) {
+			saveStatus = 'Error: Canvas not available';
+			return;
+		}
+
+		const canvasData = canvas.getCanvasData();
+		if (!canvasData) {
+			saveStatus = 'Error: No drawing data to save';
+			return;
+		}
+
+		const paintingId = generatePaintingId();
+		const metadata = {
+			title: paintingTitle || `Painting ${new Date().toLocaleDateString()}`,
+			painterName: painterName,
+			colors: colors,
+			background: background
+		};
+
+		const success = saveToStorage(paintingId, canvasData, metadata);
+
+		if (success) {
+			saveStatus = 'Painting saved successfully!';
+			paintingTitle = ''; // Clear the title input
+			painterName = ''; // Clear the name input
+			setTimeout(() => {
+				saveStatus = '';
+			}, 3000);
+		} else {
+			saveStatus = 'Error saving painting';
+		}
+	}
+
+	// Function to exit drawing board
+	function exitDrawingBoard() {
+		// Navigate back or close the drawing tool
+		if (confirm('Are you sure you want to exit? Any unsaved work will be lost.')) {
+			window.history.back();
+		}
+	}
 </script>
-<div>
-  <div class="Title"></div>
-  <h1>Drawing Board</h1>
+
+<!-- Title and Name inputs for saving -->
+<div class="save-section">
+	<div class="input-row">
+		<input
+			type="text"
+			bind:value={paintingTitle}
+			placeholder="Enter painting title (optional)"
+			class="title-input"
+		/>
+		<input
+			type="text"
+			bind:value={painterName}
+			placeholder="Enter your name (optional)"
+			class="name-input"
+		/>
+	</div>
+	{#if saveStatus}
+		<p
+			class="save-status"
+			class:success={saveStatus.includes('successfully')}
+			class:error={saveStatus.includes('Error')}
+		>
+			{saveStatus}
+		</p>
+	{/if}
 </div>
 
-<Drawing/>
+<main>
+	<Canvas {color} {background} bind:this={canvas} />
+	<Palette
+		{paletteColor}
+		{colors}
+		{background}
+		on:color={({ detail }) => {
+			color = detail.color;
+		}}
+	/>
+</main>
 
-<div>
-  
-  <button>Publish Drawing</button> 
+<div class="button-container">
+	<button on:click={exitDrawingBoard} class="secondary-button">Exit Drawing Board</button>
 </div>
 
-<div>
-
-    <button>Exit Drawing Board</button>
-</div>
-
-<div>
-    <button>Save your work</button>
-</div>
-
-
-________________________________________________________________________________________________________________
-
-<div class="container program-1">
-  <div class="box-pencil">
-    <img height=50 width=50 src="https://www.freeiconspng.com/thumbs/pencil-png/black-pencil-png-black-pencil-vector-8.png"/>
-  </div>
-  
-  <div class="box-eraser">
-    <img height=50 width=50 src="https://png.pngtree.com/png-vector/20240730/ourmid/pngtree-stationery-essential-eraser-on-transparent-background-png-image_13303676.png"/>
-  </div>
-</div>
-
-<div class="popup">
-  Which color would you like to select?
-  <div class="box-green">
-    <img height=50 width=50 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2FO8tYJytd_XYQe2l7qfbS2E4rWc3L4TR41cxJPNb0ST_MuR-6IIBbt2YqdaQYbIiBWc&usqp=CAU"/>
-  </div>
-  <div class="box-red">
-    <img height=50 width=50 src="https://www.mulberrypaperandmore.com/images/product/medium/8036.jpg"/>
-  </div>
-  <div class="box-blue">
-    <img height=50 width=50 src="https://img.freepik.com/free-photo/water-drops-background_23-2148098971.jpg?semt=ais_hybrid&w=740&q=80"/>
-  </div>
-  <div class="box-yellow">
-    <img height=50 width=50 src="https://aboffs.com/cdn/shop/products/2022-30-brightyellow_2000x.png?v=1587085556"/>
-  </div>
-  <div class="box-black">
-    <img height=50 width=50 src="https://www.goldleaf.com.au/image/cache/catalog/catalog/!220-500x500.jpg"/>
-  </div>
-  <div class="box-orange">
-    <img height=50 width=50 src="https://cdn11.bigcommerce.com/s-3uewkq06zr/images/stencil/1280x1280/products/238/464/fluorescent_orange__65442.1492527693.png?c=2"/>
-  </div>
-  <div class="box-dark-blue">
-    <img height=50 width=50 src="https://cdn11.bigcommerce.com/s-3uewkq06zr/images/stencil/1280x1280/products/234/413/fluorescent_blue__34881.1492487711.png?c=2"/>
-  </div>
-  <div class="box-brown">
-    <img height=50 width=50 src="https://www.thefortunateone.com/wp-content/uploads/2021/07/Brown-4E2F22.png"/>
-  </div>
-  <div class="box-pink">
-    <img height=50 width=50 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNztv6V3BKGFPefBxMvggLNEs3GomP7RXQ0w&s"/>
-  </div>
-   <div class="box-purple">
-    <img height=50 width=50 src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8545.jpg"/>
-  </div>
-  <div class="box-beige">
-    <img height=50 width=50 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmDxdT0rb7cM9SDbCPnYS70hX7mKdpq6eU5g&s"/>
-  </div>
-    <div class="box-white">
-    <img height=50 width=50 src="https://static.vecteezy.com/system/resources/thumbnails/049/483/787/small/abstract-white-background-photo.jpg"/>
-  </div>
-   <div class="box-gray">
-    <img height=50 width=50 src="https://images.steelcase.com/image/upload/v1567243086/6130_1000.jpg"/>
-  </div>
-   <div class="box-light-gray">
-    <img height=50 width=50 src="https://res.cloudinary.com/hni-corporation/image/upload/d_HON:Brand:Icons:HON_Icon_Outlines_HON-Icon-Gallery-001.png/f_auto,q_auto/d_HON:Brand:Icons:HON_Icon_Outlines_HON-Icon-Gallery-001.png/f_auto,q_auto/v1693919362/Surface%20Materials/Finishes/Paint/hni-paint-cove.jpg"/>
-  </div>
-  
-  
-  
-</div>
-
-<div>
-  <img height=50 width=50 src=""/>
+<div class="button-container">
+	<button on:click={saveCurrentPainting} class="save-button">Save your work</button>
 </div>
 
 <style>
-    .Title{
-  display: flex;
-  justify-content: center;
-}
+	:global(.visually-hidden:not(:focus):not(:active)) {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+	}
 
-.box-pencil{
-  margin: 5px;
-  border: 1px solid yellowgreen;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
+	.save-section {
+		padding: 1rem;
+		text-align: center;
+	}
 
+	.input-row {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-bottom: 0.5rem;
+	}
 
-.box-marker{
-  margin: 5px;
-  border: 1px solid green;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
-.box-pen{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
-.box-color-pencil{
-  margin: 5px;
-  border: 1px solid blue;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
-.box-eraser{
-  margin: 5px;
-  border: 1px solid pink;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
-.box-paint{
-  margin: 5px;
-  border: 1px solid red;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
-.box-oil-pastel{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:center;
-}
+	.title-input,
+	.name-input {
+		padding: 0.5rem;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		font-size: 1rem;
+		width: 100%;
+		max-width: 200px;
+		min-width: 150px;
+	}
 
-.box-green{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-light-gray{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-red{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-blue{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-yellow{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-black{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-orange{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-gray{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-brown{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-purple{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-dark-blue{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-pink{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-beige{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-.box-white{
-  margin: 5px;
-  border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content:flex-end;
-  
-}
-___
-_____
-.program-1{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
+	.save-status {
+		margin: 0.5rem 0;
+		padding: 0.5rem;
+		border-radius: 4px;
+		font-weight: bold;
+	}
 
+	.save-status.success {
+		background-color: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
 
-.popup{
-  display: flex;
-  flex-wrap: wrap-reverse;
-  border: 1px solid black;
-  height: 150px;
-  width: 700px;
-  justify-content:flex-end;
-}
+	.save-status.error {
+		background-color: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
 
+	main {
+		background-color: #cdcdcd;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem 0;
+	}
+
+	main :global(canvas) {
+		align-self: center;
+	}
+
+	.button-container {
+		padding: 0.5rem;
+		text-align: center;
+	}
+
+	button {
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.2s;
+		margin: 0.25rem;
+		min-width: 150px;
+	}
+
+	.secondary-button {
+		background-color: #6c757d;
+		color: white;
+	}
+
+	.secondary-button:hover {
+		background-color: #545b62;
+	}
+
+	.save-button {
+		background-color: #28a745;
+		color: white;
+	}
+
+	.save-button:hover {
+		background-color: #1e7e34;
+	}
+
+	@media (max-width: 768px) {
+		.input-row {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.title-input,
+		.name-input {
+			max-width: 250px;
+		}
+	}
 </style>

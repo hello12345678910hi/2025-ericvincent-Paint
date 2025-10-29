@@ -1,124 +1,66 @@
+<script>
+	import PaintingGallery from '../lib/PaintingGallery.svelte';
+</script>
+
 <!-- Gallery -->
 <div>
-  <div class="welcome">
-  <h1>Welcome back!</h1>
-  </div>
+	<div class="welcome">
+		<h1>Welcome back!</h1>
+	</div>
 </div>
 
 <div>
-  <div class="button">
-    Here are a list of other cool drawings people like you made:
-  </div>
-</div>
-<div>
-  <div class="galleryDisplay">
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-<div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-  </div>
-</div>
-
-
-
-
-
-
-
-<div>
-  <div class="hmpage">
-  Click this button to start creating your own artwork: 
-  <input type='button'>
-  </div>
-</div>
-
-
-<div>
-  <div class="OR">
-    <h1>OR</h1>
-  </div>
+	<div class="recent-work-section">
+		<p>Here are a list of other cool drawings people like you made:</p>
+		<PaintingGallery />
+	</div>
 </div>
 
 <div>
-  <div class="profilePage">
-    Click here to go to your profile:
-    <input type="button">
-  </div>
+	<div class="hmpage">
+		<a href="/drawing-tool">
+			<button>Create your artwork</button>
+		</a>
+	</div>
 </div>
 
 <style>
-    .body {
-  margin: 0;
-}
+	.welcome {
+		display: flex;
+		justify-content: center;
+	}
 
+	.recent-work-section {
+		padding: 2rem;
+		margin: 2rem 0;
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		text-align: center;
+	}
 
-.box {
-  height: 50px;
-  width: 50px;
-  border: 2px solid black;
-}
+	.recent-work-section h2 {
+		margin-bottom: 1.5rem;
+		color: #333;
+	}
 
-.button {
-  display: flex;
-  justify-content: center;
-}
+	.hmpage {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 
-.galleryDisplay {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+	.hmpage button {
+		padding: 1rem 2rem;
+		font-size: 1.1rem;
+		background-color: #28a745;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
 
-.welcome {
-  display: flex;
-  justify-content: center;
-}
-
-.hmpage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.OR {
-  display: flex;
-  justify-content: center;
-}
-
-.profilePage {
-  display: flex;
-  justify-content: center;
-}
+	.hmpage button:hover {
+		background-color: #1e7e34;
+	}
 </style>
