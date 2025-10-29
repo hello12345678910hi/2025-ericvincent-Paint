@@ -1,7 +1,13 @@
+<script>
+	import Drawing from "../../component/Drawing.svelte";
+
+</script>
 <div>
   <div class="Title"></div>
   <h1>Drawing Board</h1>
 </div>
+
+<Drawing/>
 
 <div>
   
